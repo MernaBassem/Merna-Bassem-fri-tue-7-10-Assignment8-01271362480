@@ -6,9 +6,10 @@ const authorSchema = new Schema(
   {
     /**
 name (String, required)
+email
+password
 • bio (String)
 • birthDate (Date)
-• books (Array of ObjectIds referencing Book model)
 
  */
     name: {
@@ -24,6 +25,10 @@ name (String, required)
       type: String,
       required: true,
     },
+    loginState: {
+      type: Boolean,
+      default: false,
+    },
     bio: String,
     birthDate: Date,
   },
@@ -32,4 +37,5 @@ name (String, required)
   }
 );
 
-export default mongoose.models.Author || model("Author", authorSchema);
+const Author = mongoose.models.Author || model("Author", authorSchema);
+export default Author;
