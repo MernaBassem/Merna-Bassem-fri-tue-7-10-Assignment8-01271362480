@@ -15,15 +15,17 @@ name (String, required)
       type: String,
       require: true,
     },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
     bio: String,
     birthDate: Date,
-
-    books: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Book",
-      },
-    ],
   },
   {
     timestamps: true,

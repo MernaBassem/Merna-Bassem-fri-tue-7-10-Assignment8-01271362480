@@ -1,31 +1,37 @@
 import mongoose from "mongoose";
 
-const { Schema,model} = mongoose;
+const { Schema, model } = mongoose;
 
-const bookSchema = new Schema({
-  /**
+const bookSchema = new Schema(
+  {
+    /**
  * title (String, required)
 • content (String, required)
 • author (String, required)
-• publishedDate (Date, default to the current date
+• publishedDate (Date, default to the current date)
  */
-  title: {
-    type: String,
-    require: true,
+    title: {
+      type: String,
+      require: true,
+    },
+    content: {
+      type: String,
+      require: true,
+    },
+    author: {
+      type: Schema.Types.ObjectId,
+      require: true,
+      ref: "Author",
+    },
+    publishedDate: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  content: {
-    type: String,
-    require: true,
-  },
-  author: {
-    type: String,
-    require: true,
-  },
-  publishedDate: {
-     type: Date,
-     default: Date.now
-     }},{
-        timestamps:true
-     });
+  {
+    timestamps: true,
+  }
+);
 
-export default mongoose.models.Book || model("Book",bookSchema)
+const Book = mongoose.models.Book || model("Book", bookSchema);
+export default Book;

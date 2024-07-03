@@ -1,13 +1,16 @@
 // index.js file
 import express from "express";
 import { connection_db } from "./DB/connection.js";
+// import BookRouter from "./src/Modules/book/book.routes.js";
 
 
 const app = express();
 const port = 3000;
+connection_db();
 
 app.use(express.json());
-connection_db
+// app.use("/book", BookRouter);
+
 
 app.get("/", (req, res) => res.send("Hello World"));
 
