@@ -125,7 +125,22 @@ export const getAuthor = async (req, res, next) => {
     if (!author) {
       return res.status(404).json({ message: "Author not found" });
     }
+    // check login state true
+    if (!author.loginState) {
+      return res.status(401).json({ message: "Please login" });
+    }
     return res.status(200).json({ author });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+//-------------------------------------------
+// get all authors
+
+export const getAllAuthors = async (req, res, next) => {
+  try {
+    const authors = await Author.find();
+    return res.status(200).json({ authors });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
