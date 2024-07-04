@@ -12,5 +12,6 @@ router.post("/signIn", AuthorController.signIn);
 router.post("/logOut" ,authenticate,AuthorController.logOut);
 router.get("/getAuthor", authenticate, AuthorController.getAuthor);
 router.get("/getAllAuthors", AuthorController.getAllAuthors);
-router.put("/updateAuthor", authenticate, AuthorController.updateAuthor);
+router.patch("/updateAuthor", authenticate, AuthorController.updateAuthor);
+router.delete("/deleteAuthor", authenticate, AuthorController.deleteAuthor);
 export default router;

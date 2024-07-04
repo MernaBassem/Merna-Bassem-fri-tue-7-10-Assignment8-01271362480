@@ -169,3 +169,23 @@ export const updateAuthor = async (req, res, next) => {
     return res.status(500).json({ message: error.message });
   }
 };
+//--------------------------------------------------
+
+// delete author data login use mongoose
+
+export const deleteAuthor = async (req, res, next) => {
+  try {
+    const author = await Author.findById(req.authorId);
+    if (!author) {
+      return res.status(404).json({ message: "Author not found" });
+    }
+    // check login state true
+    if (!author.loginState) {
+      return res.status(401).json({ message: "Please login" });
+    }
+    const deletedAuthor = await Author.findByIdAndDelete(req.authorId);
+    return res.status(200).json({message:"Author Deleted Successfully", deletedAuthor });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
