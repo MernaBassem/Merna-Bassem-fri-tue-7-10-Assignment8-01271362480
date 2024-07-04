@@ -217,3 +217,30 @@ export const getAuthorWithBook = async (req, res, next) => {
     return res.status(500).json({ message: error.message });
   }
 }
+
+//--------------------------------------
+// serach by name and bio
+export const searchAuthor = async (req, res, next) => {
+  try{
+   const {wordSearch} = req.query
+   if(!wordSearch){
+     return res.status(404).json({message:"wordSearch is required"})}
+     const searchRegex = new RegExp(wordSearch, 'i')
+     const authors = await Author.find({
+   $or:[
+    {
+      name:{$regex:searchRegex}
+    },{
+      bio:{$regex:searchRegex}
+    }
+   ]
+     })
+         return res
+           .status(200)
+           .json({ count: authors.length, wordSearch, authors});
+
+  }
+  catch(error){
+    return res.status(500).json({ message: error.message })
+  }
+}
