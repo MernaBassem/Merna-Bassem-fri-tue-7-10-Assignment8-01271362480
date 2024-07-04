@@ -106,6 +106,11 @@ export const signIn = async (req, res, next) => {
         .status(400)
         .json({ message: "Email or Password is incorrect" });
     }
+    if (author.isConfirmed === false) {
+      return res
+        .status(400)
+        .json({ message: "Please Frist Active Your Email " });
+    }
 
     // Verify the password
     const isPasswordValid = await bcrypt.compare(password, author.password);
