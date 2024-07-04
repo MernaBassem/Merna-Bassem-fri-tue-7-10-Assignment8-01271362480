@@ -2,6 +2,7 @@
 
 import bcrypt from "bcrypt";
 import Author from "../../../DB/Models/author.model.js";
+import jwt from "jsonwebtoken";
 
 // register Author
 //1-Signup
@@ -42,6 +43,42 @@ export const register = async (req, res, next) => {
     return res.status(201).json({ message: "Successfully registered", author });
   } catch (error) {
     // Handle errors
+    return res.status(400).json({ message: error.message });
+  }
+};
+
+//-----------------------------------------
+// signIn Author
+export const signIn = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    // Check if the user exists
+    const author = await Author.findOne({ email });
+    if (!author) {
+      return res
+        .status(400)
+        .json({ message: "Email or Password is incorrect" });
+    }
+
+    // Verify the password
+    const isPasswordValid = await bcrypt.compare(password, author.password);
+    if (!isPasswordValid) {
+      return res
+        .status(400)
+        .json({ message: "Email or Password is incorrect" });
+    }
+
+    // Sign a JWT token with author's ID and a secret key (make sure to use a strong secret)
+    const token = jwt.sign({ authorId: author._id }, "your_secret_key", {
+      expiresIn: 3,
+    }); // Token expires in 1 hour
+
+    // Update login state (if needed, adjust according to your application's requirements)
+    const updatedAuthor = await Author.findByIdAndUpdate(author._id, { loginState: true });
+
+    return res.status(200).json({ token });
+  } catch (error) {
     return res.status(400).json({ message: error.message });
   }
 };
