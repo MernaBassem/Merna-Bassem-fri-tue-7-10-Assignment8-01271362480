@@ -14,8 +14,10 @@ bio (String)
  birthDate (Date)
 */
 
+//--------------------------------
 
-export const register = async (req, res, next) => {
+// signUp Author
+export const signUp = async (req, res, next) => {
   const { name, email, password, bio, birthDate } = req.body;
 
   try {
@@ -71,14 +73,45 @@ export const signIn = async (req, res, next) => {
 
     // Sign a JWT token with author's ID and a secret key (make sure to use a strong secret)
     const token = jwt.sign({ authorId: author._id }, "your_secret_key", {
-      expiresIn: 3,
+      expiresIn: "1d",
     }); // Token expires in 1 hour
 
-    // Update login state (if needed, adjust according to your application's requirements)
+    // Update login state 
     const updatedAuthor = await Author.findByIdAndUpdate(author._id, { loginState: true });
 
     return res.status(200).json({ token });
   } catch (error) {
     return res.status(400).json({ message: error.message });
+  }
+};
+//--------------------------------------------------------------
+
+// logout Author
+
+
+
+export const logOut = async (req, res, next) => {
+  try {
+    // Ensure req.authorId exists
+    if (!req.authorId) {
+      return res.status(400).json({ message: "Author ID is required" });
+    }
+
+    // Update the login state
+    const updatedAuthor = await Author.findByIdAndUpdate(
+      req.authorId,
+      {
+        loginState: false,
+      },
+      { new: true }
+    );
+
+    if (!updatedAuthor) {
+      return res.status(404).json({ message: "Author not found" });
+    }
+
+    return res.status(200).json({ message: "LogOut Successful" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
 };

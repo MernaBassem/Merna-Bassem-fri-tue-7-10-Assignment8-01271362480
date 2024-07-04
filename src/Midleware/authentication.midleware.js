@@ -7,10 +7,11 @@ const authenticate = (req,res,next) =>{
 
     if(token){
          try{
-            if(!token.startswith("bookapp")){
-                return res.status(400).json({message:"Invalid Token"});
-            }
-            const originalToken = token.split(" ")[1];
+             if (!token.startsWith("book_app")) {
+               return res.status(400).json({ message: "Invalid Token" });
+             }
+
+      const originalToken = token.split("book_app")[1].trim();
             const decode = jwt.verify(originalToken, "your_secret_key");
             if(!decode?.authorId){
                 return res.status(400).json({message:"Invalid Token Payload"})
@@ -19,6 +20,9 @@ const authenticate = (req,res,next) =>{
             next()
 
          }catch(error){
+            if (error.message === "jwt expired") {
+              return res.status(400).json({ message: "Expired Token , Please Login" });
+            }
             return res.status(400).json({error:error.message})
          }
     }else{
