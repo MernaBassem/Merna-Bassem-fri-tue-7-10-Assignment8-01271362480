@@ -3,6 +3,7 @@
 import bcrypt from "bcrypt";
 import Author from "../../../DB/Models/author.model.js";
 import jwt from "jsonwebtoken";
+import { sendEmailService } from "../../services/send-email.service.js";
 
 // register Author
 //1-Signup
@@ -28,7 +29,7 @@ export const signUp = async (req, res, next) => {
     if (isEmailExist) {
       return res.status(400).json({ message: "Email already exists." });
     }
-    // take new instance 
+    // take new instance
     const authorInstance = new Author({
       name,
       email,
@@ -36,8 +37,27 @@ export const signUp = async (req, res, next) => {
       bio,
       birthDate,
     });
-    console.log("authorInstance", authorInstance);
-
+    // generate token
+    const token = jwt.sign(
+      { _id: authorInstance._id },
+      "conformationLinkToken",
+      {
+        expiresIn: "1h",
+      }
+    );
+    // confirmation Link
+    const confirmationLink = `${req.protocol}://${req.headers.host}/author/confirm-email/${token}`;
+    // send email
+    // send email
+    const isEmailSent = await sendEmailService({
+      to: email,
+      subject: "Welcome to our app",
+      textMessage: "Hello, welcome to our app",
+      htmlMessage: `<a href="${confirmationLink}">Click here to confirm your email</a>`,
+    });
+    if (isEmailSent.rejected.length) {
+      return res.status(400).json({ message: "Email not sent" });
+    }
     // Create a new author
     const author = await authorInstance.save();
 
@@ -50,6 +70,30 @@ export const signUp = async (req, res, next) => {
 };
 
 //-----------------------------------------
+export const confirmEmail = async (req, res) => {
+  try {
+    // destruct token from params
+    const { token } = req.params;
+    // verify token
+    const { _id } = jwt.verify(token, "conformationLinkToken");
+    // find and update author from db
+    const author = await Author.findOneAndUpdate(
+      { _id, isConfirmed: false },
+      { isConfirmed: true },
+      { new: true }
+    );
+    // if user not found
+    if (!author) {
+      return res.status(400).json({ message: "Author not found" });
+    }
+    // response
+    res.status(200).json({ message: "Email confirmed" });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
+
+//----------------------------------
 // signIn Author
 export const signIn = async (req, res, next) => {
   try {
@@ -76,8 +120,10 @@ export const signIn = async (req, res, next) => {
       expiresIn: "1h",
     }); // Token expires in 1 hour
 
-    // Update login state 
-    const updatedAuthor = await Author.findByIdAndUpdate(author._id, { loginState: true });
+    // Update login state
+    const updatedAuthor = await Author.findByIdAndUpdate(author._id, {
+      loginState: true,
+    });
 
     return res.status(200).json({ token });
   } catch (error) {
@@ -87,8 +133,6 @@ export const signIn = async (req, res, next) => {
 //--------------------------------------------------------------
 
 // logout Author
-
-
 
 export const logOut = async (req, res, next) => {
   try {
@@ -133,7 +177,7 @@ export const getAuthor = async (req, res, next) => {
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-}
+};
 //-------------------------------------------
 // get all authors
 
@@ -144,7 +188,7 @@ export const getAllAuthors = async (req, res, next) => {
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-}
+};
 
 //-------------------------------
 // update author data login use mongoose
@@ -164,7 +208,9 @@ export const updateAuthor = async (req, res, next) => {
       req.body,
       { new: true }
     );
-    return res.status(200).json({message:"Author Updated Successfully", updatedAuthor });
+    return res
+      .status(200)
+      .json({ message: "Author Updated Successfully", updatedAuthor });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -184,21 +230,24 @@ export const deleteAuthor = async (req, res, next) => {
       return res.status(401).json({ message: "Please login" });
     }
     const deletedAuthor = await Author.findByIdAndDelete(req.authorId);
-    return res.status(200).json({message:"Author Deleted Successfully", deletedAuthor });
+    return res
+      .status(200)
+      .json({ message: "Author Deleted Successfully", deletedAuthor });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-}
+};
 //-----------------------------------------------
 // get author by pagination
 export const getAuhtorByPagination = async (req, res, next) => {
-  try{
-    const {skip = 0, limit = 10} = req.query;
+  try {
+    const { skip = 0, limit = 10 } = req.query;
     const authors = await Author.find().skip(skip).limit(limit);
-    return res.status(200).json({count: authors.length, authors });
-  }catch(error){
-    return res.status(500).json({ message: error.message })};
-}
+    return res.status(200).json({ count: authors.length, authors });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 // ---------------------------------------------
 
 // get author with book
@@ -216,31 +265,29 @@ export const getAuthorWithBook = async (req, res, next) => {
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-}
+};
 
 //--------------------------------------
 // serach by name and bio
 export const searchAuthor = async (req, res, next) => {
-  try{
-   const {wordSearch} = req.query
-   if(!wordSearch){
-     return res.status(404).json({message:"wordSearch is required"})}
-     const searchRegex = new RegExp(wordSearch, 'i')
-     const authors = await Author.find({
-   $or:[
-    {
-      name:{$regex:searchRegex}
-    },{
-      bio:{$regex:searchRegex}
+  try {
+    const { wordSearch } = req.query;
+    if (!wordSearch) {
+      return res.status(404).json({ message: "wordSearch is required" });
     }
-   ]
-     })
-         return res
-           .status(200)
-           .json({ count: authors.length, wordSearch, authors});
-
+    const searchRegex = new RegExp(wordSearch, "i");
+    const authors = await Author.find({
+      $or: [
+        {
+          name: { $regex: searchRegex },
+        },
+        {
+          bio: { $regex: searchRegex },
+        },
+      ],
+    });
+    return res.status(200).json({ count: authors.length, wordSearch, authors });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
-  catch(error){
-    return res.status(500).json({ message: error.message })
-  }
-}
+};

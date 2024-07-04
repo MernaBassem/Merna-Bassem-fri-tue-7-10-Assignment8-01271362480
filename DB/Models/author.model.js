@@ -29,6 +29,10 @@ password
       type: Boolean,
       default: false,
     },
+    isConfirmed: {
+      type: Boolean,
+      default: false,
+    },
     bio: String,
     birthDate: Date,
   },

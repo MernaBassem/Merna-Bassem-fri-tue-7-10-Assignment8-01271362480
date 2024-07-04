@@ -17,4 +17,6 @@ router.delete("/deleteAuthor", authenticate, AuthorController.deleteAuthor);
 router.get("/getAuthorByPagination", AuthorController.getAuhtorByPagination);
 router.get("/getAuthorWithBook",authenticate,AuthorController.getAuthorWithBook);
 router.get("/searchAuthor", AuthorController.searchAuthor);
+router.get("/confirm-email/:token", AuthorController.confirmEmail);
+
 export default router;
