@@ -203,17 +203,17 @@ export const getAuhtorByPagination = async (req, res, next) => {
 
 // get author with book
 
-// export const getAuthorWithBook = async (req, res, next) => {
-//   try {
-//     const author = await Author.findById(req.authorId).populate("books");
-//     if (!author) {
-//       return res.status(404).json({ message: "Author not found" });
-//     }
-//     if (!author.loginState) {
-//       return res.status(401).json({ message: "Please login" });
-//     }
-//     return res.status(200).json({ author });
-//   } catch (error) {
-//     return res.status(500).json({ message: error.message });
-//   }
-// }
+export const getAuthorWithBook = async (req, res, next) => {
+  try {
+    const author = await Author.findById(req.authorId).populate("books");
+    if (!author) {
+      return res.status(404).json({ message: "Author not found" });
+    }
+    if (!author.loginState) {
+      return res.status(401).json({ message: "Please login" });
+    }
+    return res.status(200).json({ author });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
