@@ -73,7 +73,7 @@ export const signIn = async (req, res, next) => {
 
     // Sign a JWT token with author's ID and a secret key (make sure to use a strong secret)
     const token = jwt.sign({ authorId: author._id }, "your_secret_key", {
-      expiresIn: "1d",
+      expiresIn: "1h",
     }); // Token expires in 1 hour
 
     // Update login state 
@@ -115,3 +115,18 @@ export const logOut = async (req, res, next) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+//-------------------------------------------
+// get author data login
+
+export const getAuthor = async (req, res, next) => {
+  try {
+    const author = await Author.findById(req.authorId);
+    if (!author) {
+      return res.status(404).json({ message: "Author not found" });
+    }
+    return res.status(200).json({ author });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
