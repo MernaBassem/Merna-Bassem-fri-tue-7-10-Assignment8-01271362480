@@ -189,3 +189,14 @@ export const deleteAuthor = async (req, res, next) => {
     return res.status(500).json({ message: error.message });
   }
 }
+//-----------------------------------------------
+// get author by pagination
+export const getAuhtorByPagination = async (req, res, next) => {
+  try{
+    const {skip = 0, limit = 10} = req.query;
+    const authors = await Author.find().skip(skip).limit(limit);
+    return res.status(200).json({count: authors.length, authors });
+  }catch(error){
+    return res.status(500).json({ message: error.message })};
+}
+// ---------------------------------------------
