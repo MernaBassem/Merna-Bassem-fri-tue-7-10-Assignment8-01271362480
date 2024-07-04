@@ -201,6 +201,7 @@ export const getAllAuthors = async (req, res, next) => {
 export const updateAuthor = async (req, res, next) => {
   try {
     const author = await Author.findById(req.authorId);
+    const {name,bio,birthday} = req.body
     if (!author) {
       return res.status(404).json({ message: "Author not found" });
     }
@@ -210,7 +211,7 @@ export const updateAuthor = async (req, res, next) => {
     }
     const updatedAuthor = await Author.findByIdAndUpdate(
       req.authorId,
-      req.body,
+      { name, bio, birthday },
       { new: true }
     );
     return res
