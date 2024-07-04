@@ -1,7 +1,7 @@
 // index.js file
 import express from "express";
 import { connection_db } from "./DB/connection.js";
-// import BookRouter from "./src/Modules/book/book.routes.js";
+import BookRouter from "./src/Modules/book/book.routes.js";
 import AuthorRouter from "./src/Modules/author/author.routes.js";
 
 
@@ -10,7 +10,7 @@ const port = 3000;
 connection_db();
 
 app.use(express.json());
-// app.use("/book", BookRouter);
+app.use("/book", BookRouter);
 app.use("/author",AuthorRouter)
 
 

@@ -14,5 +14,6 @@ router.get("/getAuthor", authenticate, AuthorController.getAuthor);
 router.get("/getAllAuthors", AuthorController.getAllAuthors);
 router.patch("/updateAuthor", authenticate, AuthorController.updateAuthor);
 router.delete("/deleteAuthor", authenticate, AuthorController.deleteAuthor);
-// router.get("/getAuthorByPagination", AuthorController.getAuhtorByPagination);
+router.get("/getAuthorByPagination", AuthorController.getAuhtorByPagination);
+// router.get("/getAuthorWithBook",authenticate,AuthorController.getAuthorWithBook);
 export default router;
