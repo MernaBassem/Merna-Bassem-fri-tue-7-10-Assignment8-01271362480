@@ -11,6 +11,6 @@ router.post("/signUp", AuthorController.signUp);
 router.post("/signIn", AuthorController.signIn);
 router.post("/logOut" ,authenticate,AuthorController.logOut);
 router.get("/getAuthor", authenticate, AuthorController.getAuthor);
-router.get("/getAllAuthors", authenticate, AuthorController.getAllAuthors);
-
+router.get("/getAllAuthors", AuthorController.getAllAuthors);
+router.put("/updateAuthor", authenticate, AuthorController.updateAuthor);
 export default router;

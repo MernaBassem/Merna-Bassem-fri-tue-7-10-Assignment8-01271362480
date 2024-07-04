@@ -145,3 +145,27 @@ export const getAllAuthors = async (req, res, next) => {
     return res.status(500).json({ message: error.message });
   }
 }
+
+//-------------------------------
+// update author data login use mongoose
+
+export const updateAuthor = async (req, res, next) => {
+  try {
+    const author = await Author.findById(req.authorId);
+    if (!author) {
+      return res.status(404).json({ message: "Author not found" });
+    }
+    // check login state true
+    if (!author.loginState) {
+      return res.status(401).json({ message: "Please login" });
+    }
+    const updatedAuthor = await Author.findByIdAndUpdate(
+      req.authorId,
+      req.body,
+      { new: true }
+    );
+    return res.status(200).json({message:"Author Updated Successfully", updatedAuthor });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
