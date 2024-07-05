@@ -1,0 +1,437 @@
+{
+	"info": {
+		"_postman_id": "c48d65c8-4bac-4655-ba18-9f5fb8da4a8f",
+		"name": "Book_Store",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32953180"
+	},
+	"item": [
+		{
+			"name": "Book",
+			"item": [
+				{
+					"name": "Create Book",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Book1\",\r\n    \"content\":\"The best Book\",\r\n    \"author\":\"merna\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/book/createBook",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"book",
+								"createBook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllBooks",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "getBookById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/book/getBookById/6686a40603d4a1444329880a",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"book",
+								"getBookById",
+								"6686a40603d4a1444329880a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateBook",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "book_app eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JJZCI6IjY2ODY5NjEyODFiMzc3MmJkYzBlMTdlYSIsImlhdCI6MTcyMDEyNTM2NCwiZXhwIjoxNzIwMTI4OTY0fQ.5jN57hf0abXGHAscwlr3dI1EJks72T_JA2qNO8e2-b8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"book100\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/book/updateBook/6686a39503d4a144432987f6",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"book",
+								"updateBook",
+								"6686a39503d4a144432987f6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteBook",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "book_app eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JJZCI6IjY2ODY5NjEyODFiMzc3MmJkYzBlMTdlYSIsImlhdCI6MTcyMDEyNTM2NCwiZXhwIjoxNzIwMTI4OTY0fQ.5jN57hf0abXGHAscwlr3dI1EJks72T_JA2qNO8e2-b8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/book/deleteBook/6686a39503d4a144432987f6",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"book",
+								"deleteBook",
+								"6686a39503d4a144432987f6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBookWithAuthor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/book/getBookWithAuthor",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"book",
+								"getBookWithAuthor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBookByPagination",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/book/getBookByPagination?limit=3&skip=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"book",
+								"getBookByPagination"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3"
+								},
+								{
+									"key": "skip",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchBook",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Author",
+			"item": [
+				{
+					"name": "signUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Merna Bassem\",\r\n\"email\":\"merna21@gmail.com\",\r\n\"password\":\"123\",\r\n\"bio\":\"Mernaaaaa\",\r\n \"birthDate\":\"2024-02-23\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/author/signUp",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"author",
+								"signUp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignIn",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"merna21@gmail.com\",\r\n    \"password\":\"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/author/signIn",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"author",
+								"signIn"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logOut",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "book_app eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JJZCI6IjY2ODU0N2UwZTRkNmZiYjFlYzRmNmIyYyIsImlhdCI6MTcyMDA5NTczMiwiZXhwIjoxNzIwMTgyMTMyfQ.t8L1O3QEc3g9AD9gyHP9mre2rh2USMG02Ss2-4vGSHY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/author/logOut",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"author",
+								"logOut"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get Author",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "book_app eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JJZCI6IjY2ODU0N2UwZTRkNmZiYjFlYzRmNmIyYyIsImlhdCI6MTcyMDA5NjAxNSwiZXhwIjoxNzIwMDk5NjE1fQ._qTEwVdIQigj8beAp0A45AT7NmDSo3snYIPaY0FeZKo",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/author/getAuthor",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"author",
+								"getAuthor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all authors",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "update Author",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "book_app eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JJZCI6IjY2ODU0N2UwZTRkNmZiYjFlYzRmNmIyYyIsImlhdCI6MTcyMDA5NjQxNywiZXhwIjoxNzIwMTAwMDE3fQ.IpkbNvU9hlvD70blbVXPnSbE479kYMftWKZrY-OTCqA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"merna\",\r\n    \"bio\":\"nanaaaaaaaaa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/author/updateAuthor",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"author",
+								"updateAuthor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete Author",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "book_app eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JJZCI6IjY2ODU0N2UwZTRkNmZiYjFlYzRmNmIyYyIsImlhdCI6MTcyMDA5NzgxOSwiZXhwIjoxNzIwMTAxNDE5fQ.crLGXubIEXvqaKsDcuWnmwokRqOv-walzDCz3HMy7dQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/author/deleteAuthor",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"author",
+								"deleteAuthor"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAuthorByPagination",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/author/getAuthorByPagination?limit=10&skip=0",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"author",
+								"getAuthorByPagination"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "skip",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAuthorWithBook",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "book_app eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JJZCI6IjY2ODZhM2MzMDNkNGExNDQ0MzI5ODdmZiIsImlhdCI6MTcyMDEwMDIwOCwiZXhwIjoxNzIwMTAzODA4fQ.zdd-mZJbIuVK4Y5hmh_ndqocAKjNauxgZMl5BRHdSLQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/author/getAuthorWithBook",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"author",
+								"getAuthorWithBook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchAuthor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/author/searchAuthor?wordSearch=nanaaa",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"author",
+								"searchAuthor"
+							],
+							"query": [
+								{
+									"key": "wordSearch",
+									"value": "nanaaa"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
