@@ -1,24 +1,83 @@
 // Author Router
 
-
 import { Router } from "express";
 import * as AuthorController from "./author.controller.js";
 import authenticate from "../../Midleware/authentication.midleware.js";
 import { validationMiddleware } from "../../Midleware/validation.middleware.js";
-import { SignInSchema, SignUpSchema } from "./author.schema.js";
+import {
+  AuthorSchema,
+  SignInSchema,
+  SignUpSchema,
+  deleteSchema,
+  logOutSchema,
+  paginationSchema,
+  searchSchema,
+  updateSchema,
+} from "./author.schema.js";
 
 const router = Router();
-
-router.post("/signUp", validationMiddleware(SignUpSchema),AuthorController.signUp);
-router.post("/signIn", validationMiddleware(SignInSchema),AuthorController.signIn);
-router.post("/logOut" ,authenticate,AuthorController.logOut);
-router.get("/getAuthor", authenticate, AuthorController.getAuthor);
+//-- sign up
+router.post(
+  "/signUp",
+  validationMiddleware(SignUpSchema),
+  AuthorController.signUp
+);
+//-- sign in
+router.post(
+  "/signIn",
+  validationMiddleware(SignInSchema),
+  AuthorController.signIn
+);
+//-- log out
+router.post(
+  "/logOut",
+  validationMiddleware(logOutSchema),
+  authenticate,
+  AuthorController.logOut
+);
+//-- get author
+router.get(
+  "/getAuthor",
+  validationMiddleware(AuthorSchema),
+  authenticate,
+  AuthorController.getAuthor
+);
+//-- get all authors
 router.get("/getAllAuthors", AuthorController.getAllAuthors);
-router.patch("/updateAuthor", authenticate, AuthorController.updateAuthor);
-router.delete("/deleteAuthor", authenticate, AuthorController.deleteAuthor);
-router.get("/getAuthorByPagination", AuthorController.getAuhtorByPagination);
-router.get("/getAuthorWithBook",authenticate,AuthorController.getAuthorWithBook);
-router.get("/searchAuthor", AuthorController.searchAuthor);
+//-- update author
+router.patch(
+  "/updateAuthor",
+  validationMiddleware(updateSchema),
+  authenticate,
+  AuthorController.updateAuthor
+);
+//-- delete author
+router.delete(
+  "/deleteAuthor",
+  validationMiddleware(deleteSchema),
+  authenticate,
+  AuthorController.deleteAuthor
+);
+//-- get author by pagination
+router.get(
+  "/getAuthorByPagination",
+  validationMiddleware(paginationSchema),
+  AuthorController.getAuhtorByPagination
+);
+//-- get author with book
+router.get(
+  "/getAuthorWithBook",
+  validationMiddleware(AuthorSchema),
+  authenticate,
+  AuthorController.getAuthorWithBook
+);
+//-- search author
+router.get(
+  "/searchAuthor",
+  validationMiddleware(searchSchema),
+  AuthorController.searchAuthor
+);
+//-- confirm email
 router.get("/confirm-email/:token", AuthorController.confirmEmail);
 
 export default router;
